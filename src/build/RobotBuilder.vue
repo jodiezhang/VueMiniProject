@@ -2,41 +2,20 @@
 <div class="content">
     <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     <div class="top-row">
-       <!-- <div class="top part" :style="headBorderStyle">-->
-       <!-- <div class="top part" :class="{'sale-border':selectedRobot.head.onSale}">-->
-         <div  :class="[saleBorderClass,'top','part']">
-            <div  class="robot-name">
+            <!--<div  class="robot-name">
               {{selectedRobot.head.title}}
               <span v-show="selectedRobot.head.onSale" class="sale">Sale!</span>
-            </div>  
-            <img :src="selectedRobot.head.src" title="head" />
-            <button @click="selectPreviousHead()" class="prev-selector">&#9668;</button>
-            <button @click="selectNextHead()" class="next-selector">&#9658;</button>
-        </div>
+            </div>  -->
+            <PartSelector :parts="availableParts.heads"
+            position="top"/>
     </div>  
     <div class="middle-row">
-        <div class="left part">
-            <img :src="selectedRobot.leftArm.src" title="left arm"/>
-            <button @click="selectPreviousLeftArm()" class="prev-selector">&#9650;</button>
-            <button @click="selectNextLeftArm()" class="next-selector">&#9660;</button>
-        </div> 
-        <div class="center part">
-            <img :src="selectedRobot.torso.src" title="torsos"/>
-            <button @click="selectPreviousTorso()" class="prev-selector">&#9668;</button>
-            <button @click="selectNextTorso()" class="next-selector">&#9658;</button>
-        </div>  
-        <div class="right part">
-            <img :src="selectedRobot.rightArm.src" title="right arm"/>
-            <button @click="selectPreviousRightArm()" class="prev-selector">&#9650;</button>
-            <button @click="selectNextRightArm()" class="next-selector">&#9660;</button>
-        </div>   
+       <PartSelector :parts="availableParts.arms"  position="left"/>   
+       <PartSelector :parts="availableParts.torsos"  position="center"/>  
+       <PartSelector :parts="availableParts.arms" position="right"/>  
     </div> 
     <div class="bottom-row">
-        <div class="bottom part">
-            <img :src="selectedRobot.base.src" title="bases" />
-            <button @click="selectPreviousBase()" class="prev-selector">&#9668;</button>
-            <button @click="selectNextBase()" class="next-selector">&#9658;</button>
-        </div>
+       <PartSelector :parts="availableParts.bases"  position="bottom"/>  
     </div>   
     <div>
       <h1>Cart</h1>
@@ -61,34 +40,25 @@
 <script>
 import availableParts from '../data/parts';
 import createdHookMixin from './created-hook-mixin';
-
-function getPreviousValiIndex(index, length){
-  const deprecatedIndex=index-1;
-  return deprecatedIndex < 0 ? length - 1 : deprecatedIndex;
-}
-
-function getNextValidIndex(index, length){
-  const incrementedIndex = index + 1;
-  return incrementedIndex > length - 1 ? 0 :incrementedIndex;
-}
+import PartSelector from './PartSelector.vue';
 
 export default {
      name:'RobotBuilder',
+     components:{PartSelector},
      data(){
        return {
          availableParts,
-         cart:[],//we need to initialize it or else Vue can not detect its change
-         //Vue's change detection works by hooking into the getter and setter properties
-         //in the data function
-         selectedHeadIndex:0,
-         selectedLeftArmIndex:0,
-         selectedTorsoIndex:0,
-         selectedRightArmIndex:0,
-         selectedBaseIndex:0,
+         cart:[],
+         selectedRobot:{
+           head:{},
+           leftArm:{},
+           torso:{},
+           rightArm:{},
+           base:{}
+         }
        };
      },
-     mixins:[createdHookMixin],
-     computed:{// complex calculation logic we put it here,do not put too much logic in template
+     computed:{
          saleBorderClass(){
               return this.selectedRobot.head.onSale ? 'sale-border' : '';
          },
@@ -98,15 +68,6 @@ export default {
                 '3px solid red' :
                 '3px solid #aaa'
                 }
-         },
-         selectedRobot() {
-              return {
-                head: availableParts.heads[this.selectedHeadIndex],
-                leftArm: availableParts.arms[this.selectedLeftArmIndex],
-                torso: availableParts.torsos[this.selectedTorsoIndex],
-                rightArm: availableParts.arms[this.selectedRightArmIndex],
-                base: availableParts.bases[this.selectedBaseIndex],
-              }
          }
      },
      methods:{
@@ -120,46 +81,7 @@ export default {
          this.cart.push(Object.assign({},robot,{cost}));            
 
        },
-       selectNextHead(){
-         this.selectedHeadIndex = getNextValidIndex
-              (this.selectedHeadIndex,availableParts.heads.length);
-       },
-       selectPreviousHead(){
-         this.selectedHeadIndex = getPreviousValiIndex
-              (this.selectedHeadIndex,availableParts.heads.length);
-       },
-        selectNextLeftArm(){
-         this.selectedLeftArmIndex = getNextValidIndex
-              (this.selectedLeftArmIndex,availableParts.arms.length);
-       },
-       selectPreviousLeftArm(){
-         this.selectedLeftArmIndex = getPreviousValiIndex
-              (this.selectedLeftArmIndex,availableParts.arms.length);
-       },
-        selectNextRightArm(){
-         this.selectedRightArmIndex = getNextValidIndex
-              (this.selectedRightArmIndex,availableParts.arms.length);
-       },
-       selectPreviousRightArm(){
-         this.selectedRightArmIndex = getPreviousValiIndex
-              (this.selectedRightArmIndex,availableParts.arms.length);
-       },
-       selectNextTorso(){
-         this.selectedTorsoIndex = getNextValidIndex
-              (this.selectedTorsoIndex,availableParts.torsos.length);
-       },
-       selectPreviousTorso(){
-         this.selectedTorsoIndex = getPreviousValiIndex
-              (this.selectedTorsoIndex,availableParts.torsos.length);
-       },
-       selectNextBase(){
-         this.selectedBaseIndex = getNextValidIndex
-              (this.selectedBaseIndex,availableParts.bases.length);
-       },
-       selectPreviousBase(){
-         this.selectedBaseIndex = getPreviousValiIndex
-              (this.selectedBaseIndex,availableParts.bases.length);
-       },
+       
      }
  }
 </script>
