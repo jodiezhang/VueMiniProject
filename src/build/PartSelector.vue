@@ -54,7 +54,10 @@ export default {
      methods:{
        showPartInfo(){
         //we inject router into vue instance in main.js file
-        this.$router.push('/parts');
+        this.$router.push({name:'Parts',params:{
+          id:this.selectedPart.id,
+          partType:this.selectedPart.type,
+        }});
        },
        emitSelectedPart(){
          this.$emit('partSelected',this.selectedPart);
