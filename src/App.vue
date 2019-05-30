@@ -13,7 +13,7 @@
     <main>
       <!--<HomePage />-->
     
-          <RobotBuilder />
+        <router-view/>
    
      
     </main>
@@ -26,9 +26,7 @@ import RobotBuilder from './build/RobotBuilder.vue';
 
 export default {
   name: 'app',
-  components: {
-    RobotBuilder,
-  },
+ 
 };
 </script>
 <style>
