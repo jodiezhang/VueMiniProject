@@ -4,8 +4,7 @@
             <button @click="selectPreviousPart()" class="prev-selector">&#9650;</button>
             <button @click="selectNextPart()" class="next-selector">&#9660;</button>
             <span class="sale" v-show="selectedPart.onSale">Sale!</span>
-   </div> 
-       
+   </div>     
 </template>
 <script>
 
@@ -165,9 +164,5 @@ export default {
 .content {
   position:relative;
 }
-
-
-
-
 
 </style>
