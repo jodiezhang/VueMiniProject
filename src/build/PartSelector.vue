@@ -44,17 +44,23 @@ export default {
        selectedPart(){
          return this.parts[this.selectedPartIndex];
        }
-     
+     },
+     created(){
+        this.emitSelectedPart();
      },
      methods:{
- 
+       emitSelectedPart(){
+         this.$emit('partSelected',this.selectedPart);
+       },
        selectPreviousPart(){
          this.selectedPartIndex = getNextValidIndex
               (this.selectedPartIndex,this.parts.length);
+         this.emitSelectedPart();      
        },
        selectNextPart(){
          this.selectedPartIndex = getPreviousValiIndex
               (this.selectedPartIndex,this.parts.length);
+         this.emitSelectedPart();     
        },
        
      }
