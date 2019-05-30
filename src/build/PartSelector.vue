@@ -1,6 +1,6 @@
 <template>
    <div class="part" :class="position">
-            <img :src="selectedPart.src" title="left arm"/>
+            <img @click="showPartInfo()" :src="selectedPart.src" v-bind:title="selectedPart.title"/>
             <button @click="selectPreviousPart()" class="prev-selector">&#9650;</button>
             <button @click="selectNextPart()" class="next-selector">&#9660;</button>
             <span class="sale" v-show="selectedPart.onSale">Sale!</span>
@@ -52,6 +52,10 @@ export default {
         this.emitSelectedPart();
      },
      methods:{
+       showPartInfo(){
+        //we inject router into vue instance in main.js file
+        this.$router.push('/parts');
+       },
        emitSelectedPart(){
          this.$emit('partSelected',this.selectedPart);
        },
@@ -79,6 +83,7 @@ export default {
 }
 .part {img {
   width:165px;
+  cursor:pointer;
 }}
 .head {
   border-bottom: none;
