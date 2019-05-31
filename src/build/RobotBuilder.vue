@@ -87,7 +87,7 @@ export default {
        return {
          availableParts,
          addedToCart:false,
-         cart:[],
+         //cart:[],
          addedToCart:false,
          selectedRobot:{
            head:{},
@@ -99,7 +99,9 @@ export default {
        };
      },
      computed:{
-          
+          cart(){
+            return this.$store.state.cart;
+          }
      },
      methods:{
        addToCart(){
@@ -112,7 +114,7 @@ export default {
                 robot.base.cost;
                 console.log(cost);
           this.$store.commit('addRobotToCart',Object.assign({},robot,{cost}));
-          this.cart.push();      
+         // this.cart.push();       
         // this.cart.push(Object.assign({},robot,{cost})); 
          this.addedToCart=true;           
 
