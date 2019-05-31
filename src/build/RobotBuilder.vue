@@ -1,5 +1,5 @@
 <template>
-<div class="content">
+<div v-if="availableParts" class="content"><!--in case asynchronous call return null at first-->
     <div class="preview">
       <CollapsibleSection>
       <div class="preview-content">
@@ -47,13 +47,15 @@
 </template>
 
 <script>
-import availableParts from '../data/parts';
 import createdHookMixin from './created-hook-mixin';
 import PartSelector from './PartSelector.vue';
 import CollapsibleSection from '../shared/CollapsibleSection.vue';
 
 export default {
      name:'RobotBuilder',
+     created(){
+         this.$store.dispatch('getParts');//use dispatch to kick off actions
+     },
      components:{PartSelector,CollapsibleSection},
      beforeRouteLeave(to, from, next){
            if(this.addedToCart){
@@ -68,7 +70,6 @@ export default {
          
      data(){
        return {
-         availableParts,
          addedToCart:false,
          //cart:[],
          addedToCart:false,
@@ -84,7 +85,10 @@ export default {
      computed:{
           cart(){
             return this.$store.state.cart;
-          }
+          },
+          availableParts(){
+            return this.$store.state.parts;
+          },
      },
      methods:{
        addToCart(){
