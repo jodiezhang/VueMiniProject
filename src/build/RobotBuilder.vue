@@ -84,10 +84,10 @@ export default {
      },
      computed:{
           cart(){
-            return this.$store.state.cart;
+            return this.$store.state.robots.cart;
           },
           availableParts(){
-            return this.$store.state.parts;
+            return this.$store.state.robots.parts;
           },
      },
      methods:{
