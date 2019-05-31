@@ -3,7 +3,7 @@ const images = require.context('./images', true, /\.png$/);
 const parts = {
   heads: [
     {
-      id: 1,
+      id: 'foo',
       description:
         'A robot head with an unusually large eye and teloscpic neck -- excellent for exploring high spaces.',
       title: 'Large Cyclops',
