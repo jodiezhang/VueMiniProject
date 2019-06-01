@@ -50,28 +50,33 @@
 <script>
 //import HomePage from './home/HomePage.vue';
 import RobotBuilder from './build/RobotBuilder.vue';
+import { mapState,mapGetters } from 'vuex';
 
 export default {
   name: 'app',
   computed:{
-    rootFoo(){
-      return this.$store.state.foo;
-    },
-    robotsFoo(){
-      return this.$store.state.robots.foo;
-    },
-    usersFoo(){
-      return this.$store.state.users.foo;
-    },
-    rootGetterFoo(){
-      return this.$store.getters.foo;
-    },
-    robotsGetterFoo(){
-      return this.$store.getters['robots/foo'];
-    },
-    usersGetterFoo(){
-      return this.$store.getters['users/foo'];
-    },
+    ...mapState({
+      rootFoo:'foo',
+      robotsFoo: state=>state.robots.foo,
+      usersFoo:state=>state.users.foo
+      }),
+   // ...mapState('user',{usersFoo:'foo'}),  //这种写法只适用于有namespace情况
+
+    // usersFoo(){
+    //   return this.$store.state.users.foo;
+    // },
+    ...mapGetters({rootGetterFoo:'foo'}),
+    // rootGetterFoo(){
+    //   return this.$store.getters.foo;
+    // },
+    ...mapGetters('robots',{robotsGetterFoo:'foo'}),
+    // robotsGetterFoo(){
+    //   return this.$store.getters['robots/foo'];
+    // },
+    // usersGetterFoo(){
+    //   return this.$store.getters['users/foo'];
+    // },
+    ...mapGetters({usersGetterFoo:'foo'}),
     cart(){
       return this.$store.state.robots.cart;
     }
