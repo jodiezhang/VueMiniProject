@@ -51,11 +51,15 @@ import createdHookMixin from './created-hook-mixin';
 import PartSelector from './PartSelector.vue';
 import CollapsibleSection from '../shared/CollapsibleSection.vue';
 
+import { mapActions } from 'vuex';
+
+
 export default {
      name:'RobotBuilder',
      created(){
-         this.$store.dispatch('robots/getParts');//use dispatch to kick off actions
-     },
+       //  this.$store.dispatch('robots/getParts');//use dispatch to kick off actions
+       this.getParts();
+    },
      components:{PartSelector,CollapsibleSection},
      beforeRouteLeave(to, from, next){
            if(this.addedToCart){
@@ -91,6 +95,7 @@ export default {
           },
      },
      methods:{
+       ...mapActions('robots',['getParts','addRobotToCart']),
        addToCart(){
          const robot=this.selectedRobot;
          console.log(robot);
@@ -101,7 +106,9 @@ export default {
                 robot.base.cost;
                 console.log(cost);
          // this.$store.commit('addRobotToCart',Object.assign({},robot,{cost}));
-         this.$store.dispatch('robots/addRobotToCart',Object.assign({},robot,{cost}))
+        /* this.$store.dispatch('robots/addRobotToCart',Object.assign({},robot,{cost}))
+         .then(()=>this.$router.push('/cart'));*/
+         this.addRobotToCart(Object.assign({},robot,{ cost }))
          .then(()=>this.$router.push('/cart'));
          // this.cart.push();       
         // this.cart.push(Object.assign({},robot,{cost})); 
