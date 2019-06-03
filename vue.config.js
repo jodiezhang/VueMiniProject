@@ -1,4 +1,15 @@
 module.exports = {
+
+  /* {
+    modules: {
+      rules: [
+        {
+          test: /\.coffee$/,
+          use: ['coffee-loader'],
+        },
+      ],
+    },
+  }, */
   devServer: {
     proxy: {
       '/api': {
